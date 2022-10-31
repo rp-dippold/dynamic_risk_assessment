@@ -36,7 +36,7 @@ def merge_multiple_dataframe():
 
         # remove duplicates
         df.drop_duplicates(inplace=True, ignore_index=True,)
-        
+
         # writing the dataset to an output file
         df.to_csv(
             os.path.join(cwd, output_folder_path, 'finaldata.csv'),
