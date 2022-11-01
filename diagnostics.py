@@ -11,9 +11,27 @@ import subprocess
 with open('config.json','r') as f:
     config = json.load(f) 
 
-dataset_csv_path = os.path.join(config['output_folder_path']) 
 test_data_path = os.path.join(config['test_data_path'])
+output_folder_path = os.path.join(config['output_folder_path'])
 prod_deployment_path = os.path.join(config['prod_deployment_path'])
+
+def load_csv_data(path):
+    # load csv data in "path"
+    cwd = os.getcwd()
+    data = pd.DataFrame(columns=['corporation',
+                                 'lastmonth_activity',
+                                 'lastyear_activity',
+                                 'number_of_employees',
+                                 'exited'],)
+    for file in os.listdir(os.path.join(cwd, path)):
+        if file.split('.')[-1] == 'csv':
+            data = data.append(
+                pd.read_csv(os.path.join(cwd, path, file), 
+                encoding='utf-8', low_memory=False),
+                ignore_index=True,
+    )
+    return data
+
 
 ##################Function to get model predictions
 def model_predictions(data):
@@ -34,9 +52,14 @@ def model_predictions(data):
     return preds
 
 ##################Function to get summary statistics
-def dataframe_summary(data):
+def dataframe_summary():
     # calculate summary statistics here
     # Calculate means, medians, and standard deviations for numerical columns.
+    
+    # load data in "output_folder_path"
+    data = load_csv_data(output_folder_path)   
+
+    # container for summary statistics
     summary = []
 
     for col in data.columns:
@@ -44,9 +67,9 @@ def dataframe_summary(data):
             data[col] = pd.to_numeric(data[col])
             summary.append(
                 (col,
-                 np.mean(data[col]),
-                 np.median(data[col]),
-                 np.std(data[col]))
+                 'mean:', np.mean(data[col]),
+                 'median:',  np.median(data[col]),
+                 'std:', np.std(data[col]))
             )
         except ValueError:
             pass
@@ -55,7 +78,10 @@ def dataframe_summary(data):
     return summary
 
 ##################Function to get missing values
-def missing_data(data):
+def missing_data():
+    # load data in output_folder_path
+    data = load_csv_data(output_folder_path)
+
     # calculate the percentage of missing data in each column.
     summary = []
     for col in data.columns:
@@ -82,7 +108,7 @@ def execution_time():
     return timings
 
 ##################Function to check dependencies
-def outdated_packages_list(print_out=True):
+def outdated_packages_list():
     #get a list of outdated packages installed from requirements.txt
 
     # obtain all outdated packages
@@ -95,34 +121,18 @@ def outdated_packages_list(print_out=True):
                 [elem.decode('utf-8') for elem in line.split()][0:3]
             )
     
-    # print table
-    if print_out:
-        print(f'{"PACKAGE":<20}{"INSTALLED":<15}{"LATEST":<10}')
-        print("---------------------------------------------")
-        for row in outdated_list:
-            print(f'{row[0]:<20}{row[1]:<15}{row[2]:<10}')
+    # return table
+    output = f'{"PACKAGE":<20}{"INSTALLED":<15}{"LATEST":<10}\n'
+    output = output + '---------------------------------------------\n'
+    for row in outdated_list:
+        output = output + f'{row[0]:<20}{row[1]:<15}{row[2]:<10}\n'
 
-    return outdated_list
+    return output
 
 
 if __name__ == '__main__':
-    # read test data from test_data_path
-        # Read in test data
-    cwd = os.getcwd()
-    df_test = pd.DataFrame(columns=['corporation',
-                               'lastmonth_activity',
-                               'lastyear_activity',
-                               'number_of_employees',
-                               'exited'],)
-    # Consider the case where there is more than one test_data file
-    for file in os.listdir(os.path.join(cwd, test_data_path)):
-        df_test = df_test.append(
-            pd.read_csv(os.path.join(cwd, test_data_path, file), 
-            encoding='utf-8', low_memory=False),
-            ignore_index=True,
-    )
-    preds = model_predictions(df_test)
-    stat_summary = dataframe_summary(df_test)
-    mv_summary = missing_data(df_test)
-    exec_times = execution_time()
-    outdated_pkgs = outdated_packages_list()
+    print(model_predictions(load_csv_data(test_data_path)))
+    print(dataframe_summary())
+    print(missing_data())
+    print(execution_time())
+    print(outdated_packages_list())
