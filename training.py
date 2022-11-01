@@ -1,9 +1,10 @@
-import pandas as pd
-import numpy as np
+import json
 import pickle
 import os
+import pandas as pd
+import numpy as np
 from sklearn.linear_model import LogisticRegression
-import json
+
 
 ###################Load config.json and get path variables
 with open('config.json','r') as f:

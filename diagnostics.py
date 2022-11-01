@@ -131,8 +131,8 @@ def outdated_packages_list():
 
 
 if __name__ == '__main__':
-    print(model_predictions(load_csv_data(test_data_path)))
-    print(dataframe_summary())
-    print(missing_data())
-    print(execution_time())
-    print(outdated_packages_list())
+    model_predictions(load_csv_data(test_data_path))
+    dataframe_summary()
+    missing_data()
+    execution_time()
+    outdated_packages_list()

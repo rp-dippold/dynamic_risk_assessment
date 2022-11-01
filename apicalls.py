@@ -30,7 +30,6 @@ with open('config.json','r') as f:
 
 model_path = os.path.join(config['output_model_path'])
 
-
 with open(os.path.join(os.getcwd(), model_path, 'apireturns.txt'), 'w') as f:
     for key, value in responses.items():
         if key == 'PREDICTION':

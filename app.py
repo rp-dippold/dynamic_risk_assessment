@@ -1,11 +1,11 @@
-from flask import Flask, session, jsonify, request
-import pandas as pd
-import numpy as np
 import pickle
 import diagnostics 
 import scoring
 import json
 import os
+import pandas as pd
+import numpy as np
+from flask import Flask, request
 
 
 ######################Set up variables for use in our script
@@ -16,7 +16,6 @@ with open('config.json','r') as f:
     config = json.load(f) 
 
 model_path = os.path.join(config['output_model_path'])
-
 
 #######################Prediction Endpoint
 @app.route("/prediction", methods=['POST','OPTIONS'])
@@ -37,13 +36,11 @@ def predict():
     X = data.drop(['corporation', 'exited'], axis=1,).values.reshape(-1, 3)
     return str(clf.predict(X))
 
-
 #######################Scoring Endpoint
 @app.route("/scoring", methods=['GET','OPTIONS'])
 def score():        
     #check the score of the deployed model
     # add return value (a single F1 score number)
-    print(scoring.score_model())
     return str(scoring.score_model())
 
 #######################Summary Statistics Endpoint

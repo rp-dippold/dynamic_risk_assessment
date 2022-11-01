@@ -17,7 +17,7 @@ model_path = os.path.join(config['output_model_path'])
 
 
 ##############Function for reporting
-def score_model():
+def report_confusion_matrix():
     #calculate a confusion matrix using the test data and the deployed model
     #write the confusion matrix to the workspace
     
@@ -52,4 +52,4 @@ def score_model():
 
 
 if __name__ == '__main__':
-    score_model()
+    report_confusion_matrix()

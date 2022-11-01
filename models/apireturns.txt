@@ -3,14 +3,14 @@ PREDICTION: [0 1 1 1 1]
 SCORING: 0.5714285714285715
 
 SUMMARY-STATISTICS:
-'lastmonth_activity', 'mean:', 165.65384615384616, 'median:', 73.0, 'std:', 278.5174959713127
-'lastyear_activity', 'mean:', 1502.923076923077, 'median:', 955.0, 'std:', 2150.065274913888
-'number_of_employees', 'mean:', 26.884615384615383, 'median:', 14.0, 'std:', 30.745014509018585
-'exited', 'mean:', 0.5769230769230769, 'median:', 1.0, 'std:', 0.4940474068717357)
+'lastmonth_activity', 'mean:', 5625.923076923077, 'median:', 425.0, 'std:', 19067.170236829497
+'lastyear_activity', 'mean:', 763.5384615384615, 'median:', 97.5, 'std:', 1977.4481658240022
+'number_of_employees', 'mean:', 457.46153846153845, 'median:', 99.0, 'std:', 785.0576280057029
+'exited', 'mean:', 0.5, 'median:', 0.5, 'std:', 0.5)
 
 DIAGNOSTICS:
 Execution time:
-[0.582570887003385, 0.9101713549971464]
+[0.5180340720035019, 0.8378015999987838]
 
 Missing data:
 [0.0, 0.0, 0.0, 0.0, 0.0]
